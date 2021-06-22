@@ -2,15 +2,22 @@ import { useState } from "react";
 import { Upload, Modal } from "antd";
 import { PlusOutlined } from "@ant-design/icons";
 import Field from "../../Field";
-function getBase64(file) {
-  return new Promise((resolve, reject) => {
-    const reader = new FileReader();
-    reader.readAsDataURL(file);
-    reader.onload = () => resolve(reader.result);
-    reader.onerror = (error) => {
-      reject(error);
-    };
-  });
+
+// function getBase64(file) {
+//   return new Promise((resolve, reject) => {
+//     const reader = new FileReader();
+//     reader.readAsDataURL(file);
+//     reader.onload = () => resolve(reader.result);
+//     reader.onerror = (error) => {
+//       reject(error);
+//     };
+//   });
+// }
+
+function getBase64(img, callback) {
+  const reader = new FileReader();
+  reader.addEventListener("load", () => callback(reader.result));
+  reader.readAsDataURL(img);
 }
 
 export const Image = ({ value, onChange, onBlur }) => {
@@ -22,9 +29,9 @@ export const Image = ({ value, onChange, onBlur }) => {
   const handleCancel = () => setPreviewVisible(false);
 
   const handlePreview = async (file) => {
-    if (!file.url && !file.preview) {
-      file.preview = await getBase64(file.originFileObj);
-    }
+    // if (!file.url && !file.preview) {
+    //   file.preview = await getBase64(file.originFileObj);
+    // }
     setPreviewVisible(true);
     setPreviewImage(file.url || file.preview);
     setPreviewTitle(
@@ -32,7 +39,14 @@ export const Image = ({ value, onChange, onBlur }) => {
     );
   };
 
-  const handleChange = ({ fileList }) => setFileList(fileList);
+  const handleChange = ({ fileList }) => {
+    setFileList(fileList);
+    if (fileList.length > 0) {
+      getBase64(fileList[0].originFileObj, (imageUrl) => {
+        fileList[0].preview = fileList[0].src = imageUrl;
+      });
+    }
+  };
 
   // Upload manually
   const beforeUpload = (file) => {
