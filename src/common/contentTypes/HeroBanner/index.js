@@ -1,11 +1,7 @@
 import { Image } from "antd";
 
-const HeroBanner = () => {
-  return (
-    <div>
-      <Image width={200} height={200} src="error" />
-    </div>
-  );
+const HeroBanner = ({ src }) => {
+  return <div>{src && <Image src={src} />}</div>;
 };
 
 // HeroBanner.propTypes = {

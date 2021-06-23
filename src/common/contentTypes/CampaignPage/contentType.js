@@ -1,4 +1,4 @@
-import component from "./index";
+import Component from "./index";
 import heroBannerContentType from "../HeroBanner/contentType";
 
 const ContentUi = () => {
@@ -8,7 +8,7 @@ const ContentUi = () => {
 const contentType = {
   name: "Campaign Page",
   route: "/campaign-page", // optional if the route is configured by contentEditor
-  component, // the actual ui
+  Component, // the actual ui
   ContentUi, // the corrsponding content edit ui
 
   /* 

@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { Upload, Modal } from "antd";
 import { PlusOutlined } from "@ant-design/icons";
-import Field from "../../Field";
+//import Field from "../../Field";
 
 // function getBase64(file) {
 //   return new Promise((resolve, reject) => {
@@ -20,8 +20,8 @@ function getBase64(img, callback) {
   reader.readAsDataURL(img);
 }
 
-export const Image = ({ value, onChange, onBlur }) => {
-  const [fileList, setFileList] = useState([]);
+export const Image = ({ value, onChange }) => {
+  const [fileList, setFileList] = useState(value ? [value] : []);
   const [previewVisible, setPreviewVisible] = useState(false);
   const [previewImage, setPreviewImage] = useState("");
   const [previewTitle, setPreviewTitle] = useState("");
@@ -43,8 +43,12 @@ export const Image = ({ value, onChange, onBlur }) => {
     setFileList(fileList);
     if (fileList.length > 0) {
       getBase64(fileList[0].originFileObj, (imageUrl) => {
-        fileList[0].preview = fileList[0].src = imageUrl;
+        fileList[0].preview = imageUrl;
+        fileList[0].src = imageUrl;
+        onChange(fileList[0]);
       });
+    } else {
+      onChange(null);
     }
   };
 
@@ -83,11 +87,11 @@ export const Image = ({ value, onChange, onBlur }) => {
   );
 };
 
-const ImageField = ({ name }) => {
-  return (
-    <Field label="Image" name={name}>
-      <Image></Image>
-    </Field>
-  );
-};
+// const ImageField = ({ name }) => {
+//   return (
+//     <Field label="Image" name={name}>
+//       <Image></Image>
+//     </Field>
+//   );
+// };
 export default Image;

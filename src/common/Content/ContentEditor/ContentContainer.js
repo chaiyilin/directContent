@@ -1,7 +1,7 @@
 import { Children, isValidElement, cloneElement } from "react";
 import { useRecoilState } from "recoil";
-import { Formik, Form } from "formik";
-import state from "./state";
+import { Form, Button } from "antd";
+import state from "../state";
 
 const ContentContainer = ({ children }) => {
   const [content, setContent] = useRecoilState(state);
@@ -13,10 +13,22 @@ const ContentContainer = ({ children }) => {
     return child;
   });
 
+  const onFinish = (values) => {
+    console.log("Received values from form: ", values);
+  };
+
   return (
-    <Formik initialValues={{}}>
-      <Form>{childrenWithProps}</Form>
-    </Formik>
+    <Form
+      onFinish={onFinish}
+      onValuesChange={(_, allValues) => {
+        setContent({ ...allValues });
+      }}
+    >
+      {childrenWithProps}
+      <Button type="primary" htmlType="submit">
+        Submit
+      </Button>
+    </Form>
   );
 };
 

@@ -10,11 +10,6 @@ function App() {
     <Router>
       <div>
         <Switch>
-          {/* <Route path="/:contentRoute/edit">
-            <Suspense fallback={<div>Loading...</div>}>
-              <ContentEditor />
-            </Suspense>
-          </Route> */}
           <Route exact path="/">
             <Home />
           </Route>

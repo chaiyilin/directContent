@@ -1,24 +1,35 @@
 // https://dev.to/knowit-development/recursive-components-in-react-37ka
 import ContentTypePanel from "../primitives/ContentTypePanel";
 
-const RecursiveContentUis = ({ fieldName, contentType }) => {
+const RecursiveContentUis = ({
+  fieldNameFromParent = [],
+  fieldDisplayName = "",
+  contentType,
+}) => {
   const { ContentUi, contentTypeFields } = contentType;
   const children =
     contentTypeFields &&
     contentTypeFields.map((contentTypeField) => {
-      const { fieldName, contentType } = contentTypeField;
+      const { fieldName, fieldDisplayName, contentType } = contentTypeField;
       return (
-        <RecursiveContentUis key={fieldName} {...{ fieldName, contentType }} />
+        <RecursiveContentUis
+          key={[...fieldNameFromParent, fieldName].join(".")}
+          {...{
+            fieldNameFromParent: [...fieldNameFromParent, fieldName],
+            fieldDisplayName,
+            contentType,
+          }}
+        />
       );
     });
-  return !fieldName ? (
+  return !fieldNameFromParent ? (
     <>
       <ContentUi></ContentUi>
       {children}
     </>
   ) : (
-    <ContentTypePanel header={fieldName}>
-      <ContentUi></ContentUi>
+    <ContentTypePanel header={fieldDisplayName}>
+      <ContentUi fieldNameFromParent={fieldNameFromParent}></ContentUi>
       {children}
     </ContentTypePanel>
   );

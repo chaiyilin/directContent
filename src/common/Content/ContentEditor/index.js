@@ -1,6 +1,7 @@
 import { ReflexContainer, ReflexSplitter, ReflexElement } from "react-reflex";
 import { RecoilRoot } from "recoil";
 import ContentContainer from "./ContentContainer";
+import ComponentContainer from "./ComponentContainer";
 
 const ContentEditor = ({ Left, Right }) => {
   return (
@@ -8,7 +9,9 @@ const ContentEditor = ({ Left, Right }) => {
       <ReflexContainer orientation="vertical">
         <ReflexElement className="left-pane">
           <div className="pane-content">
-            <Left></Left>
+            <ComponentContainer>
+              <Left></Left>
+            </ComponentContainer>
           </div>
         </ReflexElement>
 

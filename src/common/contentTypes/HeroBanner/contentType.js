@@ -1,9 +1,14 @@
+import { Form } from "antd";
 import Image from "../../primitives/fields/Image";
 import component from "./index";
 import ctaContentType from "../Cta/contentType";
 
-const ContentUi = () => {
-  return <Image />;
+const ContentUi = ({ fieldNameFromParent }) => {
+  return (
+    <Form.Item name={[...fieldNameFromParent, "image"]} lable="Image">
+      <Image />
+    </Form.Item>
+  );
 };
 
 const contentType = {
